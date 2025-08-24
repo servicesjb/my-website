@@ -7,7 +7,7 @@
     <title>Jeremy Boka | New Yorker, Veteran, Columbia MBA</title>
     <meta name="description" content="Jeremy Boka - New Yorker, Veteran, Columbia MBA, Cornell B.S.">
 
-    <script async src="https://www.googlettagmanager.com/gtag/js?id=G-EQCSKQ22DG"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQCSKQ22DG"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -80,9 +80,12 @@
             color: var(--footer-text-color);
             font-size: 1rem;
             line-height: 1.6;
-            
-            /* ** CENTERING FIX ** Adding text-align ensures multi-line text centers properly */
-            text-align: center;
+
+            /* ** CENTERING FIX ** Using Flexbox for robust, modern centering */
+            display: flex;
+            justify-content: center; /* Horizontally centers the content */
+            align-items: center;     /* Vertically centers the content */
+            text-align: center;      /* Ensures multi-line text is centered */
         }
 
         /* Responsive font sizes */
@@ -116,7 +119,6 @@
         fetch('/location')
           .then(response => response.json())
           .then(data => {
-            // ** SCRIPT CHANGE ** Build a single HTML string and remove periods
             let message = '';
 
             if (data.city) {
@@ -124,7 +126,6 @@
             }
 
             if (data.timeDifference !== null) {
-                // Add a line break only if the city message already exists
                 if (message !== '') {
                     message += '<br>';
                 }
@@ -137,7 +138,6 @@
                 }
             }
             
-            // Set the entire message at once
             if (message) {
                 locationElement.innerHTML = message;
             }
