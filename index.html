@@ -2,9 +2,93 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>My Website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Jeremy Boka | New Yorker, Veteran, Columbia MBA</title>
+    <meta name="description" content="Jeremy Boka - A New Yorker, Veteran, Columbia MBA, and Cornell B.S. graduate. Connect on LinkedIn.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQCSKQ22DG"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-EQCSKQ22DG');
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans+Pinstripe&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --background-color: #000000; /* Black */
+            --text-color: #FAFAFA;       /* Off-white */
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Alumni Sans Pinstripe', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 6rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        /* This makes the link in your name look like normal text */
+        h1 a {
+            color: inherit; /* Inherits the white text color */
+            text-decoration: none; /* Removes the underline */
+        }
+
+        p {
+            font-size: 1.7rem;
+            letter-spacing: 1px;
+            margin-top: 0;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        /* Responsive font sizes */
+        @media (min-width: 600px) {
+            h1 {
+                font-size: 8rem;
+            }
+            p {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to my website!</h1>
+
+    <main class="container">
+        <h1><a href="https://www.linkedin.com/in/jeremyboka" target="_blank" rel="noopener noreferrer">Jeremy Boka</a></h1>
+        
+        <p>New Yorker, Veteran, Columbia MBA, Cornell B.S.</p>
+    </main>
+
 </body>
 </html>
