@@ -38,16 +38,21 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
+        /* ** LAYOUT CHANGE ** Body is now a flex column to push footer down */
         body {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
             min-height: 100vh;
-            padding: 1rem;
         }
 
-        .container {
-            text-align: center;
+        /* ** LAYOUT CHANGE ** Main content now expands to fill available space */
+        main.container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
         }
 
         h1 {
@@ -71,21 +76,15 @@
             line-height: 1.5;
         }
         
+        /* ** LAYOUT CHANGE ** Footer is no longer fixed; it's pushed down by main content */
         footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
             width: 100%;
-            padding: 1.5rem;
+            padding: 1.5rem 0; /* Use 0 for left/right padding to avoid issues */
             color: var(--footer-text-color);
             font-size: 1rem;
             line-height: 1.6;
-
-            /* ** CENTERING FIX ** Using Flexbox for robust, modern centering */
-            display: flex;
-            justify-content: center; /* Horizontally centers the content */
-            align-items: center;     /* Vertically centers the content */
-            text-align: center;      /* Ensures multi-line text is centered */
+            text-align: center;
+            flex-shrink: 0; /* Prevents footer from shrinking */
         }
 
         /* Responsive font sizes */
