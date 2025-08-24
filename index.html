@@ -64,20 +64,21 @@
         }
 
         p {
-            font-size: 1.7rem;
+            /* ** STYLE CHANGE ** Reduced font size to prevent awkward wrapping on mobile */
+            font-size: 1.5rem; 
             letter-spacing: 1px;
             margin-top: 0;
             margin-bottom: 2rem;
             line-height: 1.5;
         }
-
-        /* ** NEW STYLE ** For the footer at the bottom of the page */
+        
         footer {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
             padding: 1.5rem;
+            /* ** STYLE FIX ** This ensures the text inside the footer is centered */
             text-align: center;
             font-size: 1rem;
             color: var(--footer-text-color);
@@ -90,6 +91,7 @@
                 font-size: 8rem;
             }
             p {
+                /* Font size increases on larger screens */
                 font-size: 2rem;
             }
             footer {
@@ -118,23 +120,19 @@
             let cityLine = '';
             let timeLine = '';
 
-            // Create the first line of the message
             if (data.city) {
                 cityLine = `You accessed this site in ${data.city}.`;
             }
 
-            // Create the second line of the message
             if (data.timeDifference !== null) {
                 if (data.isSame) {
                     timeLine = 'Your local time is the same as in NYC.';
                 } else {
                     const hours = data.timeDifference === 1 ? 'hour' : 'hours';
-                    // ** TEXT CHANGE ** Removed the word "roughly"
                     timeLine = `Your local time is ${data.timeDifference} ${hours} ${data.aheadOrBehind} NYC.`;
                 }
             }
             
-            // Display the messages on the page
             if(cityLine || timeLine) {
                 locationElement.textContent = cityLine;
                 if(cityLine && timeLine) {
