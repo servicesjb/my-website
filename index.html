@@ -57,10 +57,9 @@
             text-transform: uppercase;
         }
         
-        /* This makes the link in your name look like normal text */
         h1 a {
-            color: inherit; /* Inherits the white text color */
-            text-decoration: none; /* Removes the underline */
+            color: inherit;
+            text-decoration: none;
         }
 
         p {
@@ -71,6 +70,13 @@
             line-height: 1.5;
         }
 
+        #location-info {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 0;
+            min-height: 4rem; /* Reserve space to prevent layout shift */
+        }
+
         /* Responsive font sizes */
         @media (min-width: 600px) {
             h1 {
@@ -78,6 +84,9 @@
             }
             p {
                 font-size: 2rem;
+            }
+            #location-info {
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -88,8 +97,50 @@
         <h1><a href="https://www.linkedin.com/in/jeremyboka" target="_blank" rel="noopener noreferrer">Jeremy Boka</a></h1>
         
         <p>New Yorker, Veteran, Columbia MBA, Cornell B.S.</p>
+
+        <div id="location-info"></div>
     </main>
 
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const locationElement = document.getElementById('location-info');
+
+        fetch('/location')
+          .then(response => response.json())
+          .then(data => {
+            let cityLine = '';
+            let timeLine = '';
+
+            // Create the first line of the message
+            if (data.city) {
+                cityLine = `You accessed this site in ${data.city}.`;
+            }
+
+            // Create the second line of the message
+            if (data.timeDifference !== null) {
+                if (data.isSame) {
+                    timeLine = 'Your local time is the same as in NYC.';
+                } else {
+                    const hours = data.timeDifference === 1 ? 'hour' : 'hours';
+                    timeLine = `Your local time is roughly ${data.timeDifference} ${hours} ${data.aheadOrBehind} NYC.`;
+                }
+            }
+            
+            // Display the messages on the page
+            if(cityLine || timeLine) {
+                locationElement.textContent = cityLine;
+                if(cityLine && timeLine) {
+                     locationElement.appendChild(document.createElement('br'));
+                }
+                if(timeLine) {
+                    locationElement.appendChild(document.createTextNode(timeLine));
+                }
+            }
+          })
+          .catch(error => {
+            console.error('Error fetching location data:', error);
+          });
+      });
+    </script>
 </body>
 </html>
-
