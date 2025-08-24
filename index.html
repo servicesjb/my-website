@@ -38,12 +38,14 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
+        /* ** LAYOUT CHANGE ** Body is now a flex column to push footer down */
         body {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
+        /* ** LAYOUT CHANGE ** Main content now expands to fill available space */
         main.container {
             flex-grow: 1;
             display: flex;
@@ -54,11 +56,9 @@
         }
 
         h1 {
-            /* ** STYLE CHANGE ** Font size restored to be large on mobile */
-            font-size: 6rem; 
+            font-size: 6rem;
             font-weight: 400;
-            /* ** STYLE CHANGE ** Reduced bottom margin to tighten spacing */
-            margin-bottom: 0.25rem; 
+            margin-bottom: 0.5rem;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
@@ -69,38 +69,34 @@
         }
 
         p {
-            /* ** STYLE CHANGE ** Reduced font size, margin, and line height for mobile */
-            font-size: 1.2rem; 
+            font-size: 1.5rem; 
             letter-spacing: 1px;
             margin-top: 0;
-            margin-bottom: 1rem;
-            line-height: 1.4;
+            margin-bottom: 2rem;
+            line-height: 1.5;
         }
         
+        /* ** LAYOUT CHANGE ** Footer is no longer fixed; it's pushed down by main content */
         footer {
             width: 100%;
-            padding: 1rem 0; 
+            padding: 1.5rem 0; /* Use 0 for left/right padding to avoid issues */
             color: var(--footer-text-color);
             font-size: 1rem;
             line-height: 1.6;
             text-align: center;
-            flex-shrink: 0;
+            flex-shrink: 0; /* Prevents footer from shrinking */
         }
 
-        /* Responsive font sizes for screens larger than mobile */
+        /* Responsive font sizes */
         @media (min-width: 600px) {
             h1 {
                 font-size: 8rem;
-                margin-bottom: 0.5rem;
             }
             p {
                 font-size: 2rem;
-                margin-bottom: 2rem;
-                line-height: 1.5;
             }
             footer {
                 font-size: 1.2rem;
-                padding: 1.5rem 0;
             }
         }
     </style>
