@@ -7,7 +7,7 @@
     <title>Jeremy Boka | New Yorker, Veteran, Columbia MBA</title>
     <meta name="description" content="Jeremy Boka - New Yorker, Veteran, Columbia MBA, Cornell B.S.">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQCSKQ22DG"></script>
+    <script async src="https://www.googlettagmanager.com/gtag/js?id=G-EQCSKQ22DG"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -80,10 +80,9 @@
             color: var(--footer-text-color);
             font-size: 1rem;
             line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            
+            /* ** CENTERING FIX ** Adding text-align ensures multi-line text centers properly */
+            text-align: center;
         }
 
         /* Responsive font sizes */
@@ -117,31 +116,30 @@
         fetch('/location')
           .then(response => response.json())
           .then(data => {
-            let cityLine = '';
-            let timeLine = '';
+            // ** SCRIPT CHANGE ** Build a single HTML string and remove periods
+            let message = '';
 
             if (data.city) {
-                cityLine = `You accessed this site in ${data.city}.`;
+                message += `You accessed this site in ${data.city}`;
             }
 
             if (data.timeDifference !== null) {
-                // ** SCRIPT CHANGE ** New logic for the custom NYC message
+                // Add a line break only if the city message already exists
+                if (message !== '') {
+                    message += '<br>';
+                }
+                
                 if (data.isSame && data.localTime) {
-                    timeLine = `The local time is ${data.localTime}.`;
+                    message += `The local time is ${data.localTime}`;
                 } else if (!data.isSame) {
                     const hours = data.timeDifference === 1 ? 'hour' : 'hours';
-                    timeLine = `Your local time is ${data.timeDifference} ${hours} ${data.aheadOrBehind} NYC.`;
+                    message += `Your local time is ${data.timeDifference} ${hours} ${data.aheadOrBehind} NYC`;
                 }
             }
             
-            if(cityLine || timeLine) {
-                locationElement.textContent = cityLine;
-                if(cityLine && timeLine) {
-                     locationElement.appendChild(document.createElement('br'));
-                }
-                if(timeLine) {
-                    locationElement.appendChild(document.createTextNode(timeLine));
-                }
+            // Set the entire message at once
+            if (message) {
+                locationElement.innerHTML = message;
             }
           })
           .catch(error => {
