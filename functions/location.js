@@ -1,48 +1,62 @@
-// This is a Cloudflare Function. It runs on the server before the page is sent to the user.
-// Its job is to get the visitor's location and calculate the distance to NYC.
-
-// Haversine formula to calculate distance between two lat/lon points in miles
-function getDistance(lat1, lon1, lat2, lon2) {
-  const R = 3958.8; // Radius of the Earth in miles
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
-
-// This is the main function that runs when your page is requested
 export const onRequestGet = async (context) => {
-  // Coordinates for New York City
-  const nycLat = 40.7128;
-  const nycLon = -74.0060;
+    // Get the city and timezone from Cloudflare's request data
+    const { city, timezone } = context.request.cf;
 
-  // Get the visitor's location data from Cloudflare's request object
-  const visitorLat = context.request.cf.latitude;
-  const visitorLon = context.request.cf.longitude;
+    let timeDifference = null;
+    let aheadOrBehind = '';
+    let isSame = false;
 
-  // If we have the visitor's location, calculate the distance
-  let distance = null;
-  if (visitorLat && visitorLon) {
-    distance = getDistance(
-        parseFloat(visitorLat), 
-        parseFloat(visitorLon), 
-        nycLat, 
-        nycLon
-    );
-  }
+    // Only calculate if a valid timezone is provided
+    if (timezone) {
+        try {
+            const now = new Date();
+            
+            // Get the current hour in NYC (24-hour format)
+            const nycHour = parseInt(new Intl.DateTimeFormat('en-US', {
+                hour: 'numeric',
+                hour12: false,
+                timeZone: 'America/New_York'
+            }).format(now));
 
-  // Prepare the data to be sent back to the browser
-  const data = {
-    // Round the distance to a whole number
-    distance: distance ? Math.round(distance) : null 
-  };
-  
-  // Return the data as a JSON response
-  return new Response(JSON.stringify(data), {
-    headers: { 'Content-Type': 'application/json' },
-  });
+            // Get the current hour in the visitor's timezone (24-hour format)
+            const visitorHour = parseInt(new Intl.DateTimeFormat('en-US', {
+                hour: 'numeric',
+                hour12: false,
+                timeZone: timezone
+            }).format(now));
+
+            let diff = visitorHour - nycHour;
+
+            // Adjust for crossing midnight (e.g., California is -3 hours, not +21)
+            if (diff > 12) diff -= 24;
+            if (diff < -12) diff += 24;
+
+            timeDifference = Math.abs(diff);
+            
+            if (diff > 0) {
+                aheadOrBehind = 'ahead of';
+            } else if (diff < 0) {
+                aheadOrBehind = 'behind';
+            } else {
+                isSame = true; // The time difference is 0
+            }
+
+        } catch (e) {
+            // If the timezone is invalid, we'll just skip the calculation
+            console.error("Timezone calculation error:", e);
+        }
+    }
+
+    // Prepare the data to send to the webpage
+    const data = {
+        city: city || null,
+        timeDifference: timeDifference,
+        aheadOrBehind: aheadOrBehind,
+        isSame: isSame
+    };
+
+    // Return the data as a JSON response
+    return new Response(JSON.stringify(data), {
+        headers: { 'Content-Type': 'application/json' },
+    });
 };
