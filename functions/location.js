@@ -1,24 +1,22 @@
 export const onRequestGet = async (context) => {
-    // Get the city and timezone from Cloudflare's request data
     const { city, timezone } = context.request.cf;
 
     let timeDifference = null;
     let aheadOrBehind = '';
     let isSame = false;
+    let localTime = null; // Variable to hold the current time string
 
-    // Only calculate if a valid timezone is provided
     if (timezone) {
         try {
             const now = new Date();
+            const nycTimeZone = 'America/New_York';
             
-            // Get the current hour in NYC (24-hour format)
             const nycHour = parseInt(new Intl.DateTimeFormat('en-US', {
                 hour: 'numeric',
                 hour12: false,
-                timeZone: 'America/New_York'
+                timeZone: nycTimeZone
             }).format(now));
 
-            // Get the current hour in the visitor's timezone (24-hour format)
             const visitorHour = parseInt(new Intl.DateTimeFormat('en-US', {
                 hour: 'numeric',
                 hour12: false,
@@ -26,8 +24,7 @@ export const onRequestGet = async (context) => {
             }).format(now));
 
             let diff = visitorHour - nycHour;
-
-            // Adjust for crossing midnight (e.g., California is -3 hours, not +21)
+            
             if (diff > 12) diff -= 24;
             if (diff < -12) diff += 24;
 
@@ -38,24 +35,29 @@ export const onRequestGet = async (context) => {
             } else if (diff < 0) {
                 aheadOrBehind = 'behind';
             } else {
-                isSame = true; // The time difference is 0
+                isSame = true;
+                // ** NEW ** If in the same timezone, format the current time
+                const timeFormatter = new Intl.DateTimeFormat('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false,
+                    timeZone: nycTimeZone
+                });
+                localTime = timeFormatter.format(now);
             }
-
         } catch (e) {
-            // If the timezone is invalid, we'll just skip the calculation
             console.error("Timezone calculation error:", e);
         }
     }
 
-    // Prepare the data to send to the webpage
     const data = {
         city: city || null,
         timeDifference: timeDifference,
         aheadOrBehind: aheadOrBehind,
-        isSame: isSame
+        isSame: isSame,
+        localTime: localTime // ** NEW ** Include the time in the data
     };
 
-    // Return the data as a JSON response
     return new Response(JSON.stringify(data), {
         headers: { 'Content-Type': 'application/json' },
     });
