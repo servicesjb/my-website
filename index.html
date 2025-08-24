@@ -80,12 +80,10 @@
             color: var(--footer-text-color);
             font-size: 1rem;
             line-height: 1.6;
-
-            /* ** CENTERING FIX ** Using Flexbox for robust centering */
             display: flex;
-            flex-direction: column; /* Stacks lines vertically */
-            justify-content: center; /* Centers content on the main axis (vertical) */
-            align-items: center;     /* Centers content on the cross axis (horizontal) */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         /* Responsive font sizes */
@@ -127,9 +125,10 @@
             }
 
             if (data.timeDifference !== null) {
-                if (data.isSame) {
-                    timeLine = 'Your local time is the same as in NYC.';
-                } else {
+                // ** SCRIPT CHANGE ** New logic for the custom NYC message
+                if (data.isSame && data.localTime) {
+                    timeLine = `The local time is ${data.localTime}.`;
+                } else if (!data.isSame) {
                     const hours = data.timeDifference === 1 ? 'hour' : 'hours';
                     timeLine = `Your local time is ${data.timeDifference} ${hours} ${data.aheadOrBehind} NYC.`;
                 }
