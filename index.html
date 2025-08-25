@@ -7,6 +7,8 @@
     <title>Jeremy Boka | New Yorker, Veteran, Columbia MBA</title>
     <meta name="description" content="Jeremy Boka - New Yorker, Veteran, Columbia MBA, Cornell B.S.">
 
+    <link rel="icon" href="/favicon.png" type="image/png">
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQCSKQ22DG"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -38,14 +40,12 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* ** LAYOUT CHANGE ** Body is now a flex column to push footer down */
         body {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        /* ** LAYOUT CHANGE ** Main content now expands to fill available space */
         main.container {
             flex-grow: 1;
             display: flex;
@@ -56,7 +56,7 @@
         }
 
         h1 {
-            font-size: 6rem;
+            font-size: 4.5rem; 
             font-weight: 400;
             margin-bottom: 0.5rem;
             letter-spacing: 2px;
@@ -69,34 +69,35 @@
         }
 
         p {
-            font-size: 1.5rem; 
+            font-size: 1.3rem; 
             letter-spacing: 1px;
             margin-top: 0;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             line-height: 1.5;
         }
         
-        /* ** LAYOUT CHANGE ** Footer is no longer fixed; it's pushed down by main content */
         footer {
             width: 100%;
-            padding: 1.5rem 0; /* Use 0 for left/right padding to avoid issues */
+            padding: 1rem 0; 
             color: var(--footer-text-color);
             font-size: 1rem;
             line-height: 1.6;
             text-align: center;
-            flex-shrink: 0; /* Prevents footer from shrinking */
+            flex-shrink: 0;
         }
 
-        /* Responsive font sizes */
+        /* Responsive font sizes for screens larger than mobile */
         @media (min-width: 600px) {
             h1 {
                 font-size: 8rem;
             }
             p {
                 font-size: 2rem;
+                margin-bottom: 2rem;
             }
             footer {
                 font-size: 1.2rem;
+                padding: 1.5rem 0;
             }
         }
     </style>
@@ -109,7 +110,7 @@
         <p>New Yorker, Veteran, Columbia MBA, Cornell B.S.</p>
     </main>
 
-    <footer id="location-info"></footer>
+    <footer id="location-info" data-nosnippet></footer>
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
