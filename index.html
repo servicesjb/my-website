@@ -69,6 +69,11 @@
         h1 a {
             color: inherit;
             text-decoration: none;
+            transition: text-shadow 0.3s ease-in-out;
+        }
+
+        h1 a:hover {
+            text-shadow: 0 0 8px var(--text-color);
         }
 
         p {
@@ -77,6 +82,17 @@
             margin-top: 0;
             margin-bottom: 1.5rem;
             line-height: 1.5;
+        }
+        
+        /* ** NEW ** Styles for the new link and its hover effect */
+        p a {
+            color: inherit;
+            text-decoration: none;
+            transition: text-shadow 0.3s ease-in-out;
+        }
+
+        p a:hover {
+            text-shadow: 0 0 8px var(--text-color);
         }
         
         footer {
@@ -89,7 +105,7 @@
             flex-shrink: 0;
         }
 
-        /* Responsive font sizes for screens larger than mobile */
+        /* Responsive font sizes */
         @media (min-width: 600px) {
             h1 {
                 font-size: 8rem;
@@ -110,7 +126,7 @@
     <main class="container">
         <h1><a href="https://www.linkedin.com/in/jeremyboka" target="_blank" rel="noopener noreferrer">Jeremy Boka</a></h1>
         
-        <p>New Yorker, Veteran, Columbia MBA, Cornell B.S.</p>
+        <p><a href="https://www.linkedin.com/in/jeremyboka" target="_blank" rel="noopener noreferrer">New Yorker, Veteran, Columbia MBA, Cornell B.S.</a></p>
     </main>
 
     <footer id="location-info" data-nosnippet></footer>
